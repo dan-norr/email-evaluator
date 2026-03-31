@@ -1,0 +1,7 @@
+{
+  "node_version": "20",
+  "graphs": {
+    "email_evaluator": "./src/graph/graph.ts:buildEmailEvaluatorGraph"
+  },
+  "env": ".env"
+}
