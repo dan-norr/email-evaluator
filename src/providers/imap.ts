@@ -46,7 +46,7 @@ export class ImapProvider implements EmailProvider {
 
       const parsed = await simpleParser(all.body as string);
       const from = parsed.from?.text ?? "";
-      const to = typeof parsed.to === "string" ? parsed.to : parsed.to?.text ?? "";
+      const to = Array.isArray(parsed.to) ? parsed.to[0]?.text ?? "" : parsed.to?.text ?? "";
 
       emails.push({
         message_id: parsed.messageId ?? `imap-${Date.now()}-${Math.random()}`,
@@ -54,7 +54,7 @@ export class ImapProvider implements EmailProvider {
         from,
         to,
         subject: parsed.subject ?? "(sem assunto)",
-        body: parsed.text ?? parsed.html ?? "",
+        body: parsed.text ?? (typeof parsed.html === "string" ? parsed.html : "") ?? "",
         date: parsed.date?.toISOString() ?? new Date().toISOString(),
         has_attachments: (parsed.attachments?.length ?? 0) > 0,
       });
